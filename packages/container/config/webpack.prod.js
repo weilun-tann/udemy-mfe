@@ -15,7 +15,13 @@ const commonConfig = require("./webpack.common");
 const prodConfig = {
   mode: "production",
   output: {
-    filename: "[name].[contenthash].js",
+      filename: "[name].[contenthash].js",
+
+      // Webpack will append this path segment when accessing css/js
+      // E.g. <script src="/container/latest/main-dsandsjsa123.js"></script>
+      // This is used when our files are uploaded to sub-directories during website hosting
+      // E.g. in /container/latest on S3
+      publicPath: "/container/latest/",
   },
   plugins: [
     new ModuleFederationPlugin({
