@@ -9,10 +9,16 @@ const deps = require("../package.json").dependencies;
 
 const commonConfig = require("./webpack.common");
 
-const devConfig = {
+const prodConfig = {
   mode: "production",
   output: {
     filename: "[name].[contenthash].js",
+
+    // Webpack will append this path segment when accessing css/js
+    // E.g. <script src="/marketing/latest/main-dsandsjsa123.js"></script>
+    // This is used when our files are uploaded to sub-directories during website hosting
+    // E.g. in /marketing/latest on S3
+    publicPath: "/marketing/latest/",
   },
   plugins: [
     new ModuleFederationPlugin({
@@ -26,5 +32,5 @@ const devConfig = {
   ],
 };
 
-// Merge webpack.common.js with webpack.dev.js
-module.exports = merge(commonConfig, devConfig);
+// Merge webpack.common.js with webpack.prod.js
+module.exports = merge(commonConfig, prodConfig);

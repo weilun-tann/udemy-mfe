@@ -18,9 +18,6 @@ const devConfig = {
     },
   },
   plugins: [
-    new HtmlWebpackPlugin({
-      template: "./public/index.html",
-    }),
     new ModuleFederationPlugin({
       name: "marketing", // module name used in <module>@... URI string
       filename: "remoteEntry.js", // tells hosts which files are exposed
