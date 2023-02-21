@@ -7,9 +7,6 @@ const ModuleFederationPlugin = require("webpack/lib/container/ModuleFederationPl
 // For enabling shared modules for all `dependencies` in `package.json`
 const deps = require("../package.json").dependencies;
 
-// We will fill up `PRODUCTION_DOMAIN` in Github Actions
-const PRODUCTION_DOMAIN = process.env.PRODUCTION_DOMAIN;
-
 const commonConfig = require("./webpack.common");
 
 const prodConfig = {
@@ -18,18 +15,17 @@ const prodConfig = {
     filename: "[name].[contenthash].js",
 
     // Webpack will append this path segment when accessing css/js
-    // E.g. <script src="/container/latest/main-dsandsjsa123.js"></script>
+    // E.g. <script src="/dashboard/latest/main-dsandsjsa123.js"></script>
     // This is used when our files are uploaded to sub-directories during website hosting
-    // E.g. in /container/latest on S3
-    publicPath: "/container/latest/",
+    // E.g. in /dashboard/latest on S3
+    publicPath: "/dashboard/latest/",
   },
   plugins: [
     new ModuleFederationPlugin({
-      name: "container",
-      remotes: {
-        marketing: `marketing@${PRODUCTION_DOMAIN}/marketing/latest/remoteEntry.js`,
-        auth: `auth@${PRODUCTION_DOMAIN}/auth/latest/remoteEntry.js`,
-        dashboard: `dashboard@${PRODUCTION_DOMAIN}/dashboard/latest/remoteEntry.js`,
+      name: "dashboard", // module name used in <module>@... URI string
+      filename: "remoteEntry.js", // tells hosts which files are exposed
+      exposes: {
+        "./DashboardApp": "./src/bootstrap", // exposed file aliases and local paths
       },
       shared: deps,
     }),

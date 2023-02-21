@@ -7,6 +7,7 @@ import Header from "./components/Header";
 // due to the above imports
 const AuthApp = lazy(() => import("./components/AuthApp"));
 const MarketingApp = lazy(() => import("./components/MarketingApp"));
+const DashboardApp = lazy(() => import("./components/DashboardApp"));
 
 export default () => {
   const [signedIn, setSignedIn] = useState(false);
@@ -28,6 +29,7 @@ export default () => {
             <Route path="/auth">
               <AuthApp onSignIn={onSignIn} />
             </Route>
+            <Route path="/dashboard" component={DashboardApp} />
             <Route path="/" component={MarketingApp} />
           </Switch>
         </Suspense>
