@@ -12,19 +12,19 @@ const commonConfig = require("./webpack.common");
 const devConfig = {
   mode: "development",
   devServer: {
-    port: 8081,
+    port: 8082,
     historyApiFallback: true,
   },
   // To make sure main.js is loaded from the correct domain
   output: {
-    publicPath: "http://localhost:8081/",
+    publicPath: "http://localhost:8082/",
   },
   plugins: [
     new ModuleFederationPlugin({
-      name: "marketing", // module name used in <module>@... URI string
+      name: "auth", // module name used in <module>@... URI string
       filename: "remoteEntry.js", // tells hosts which files are exposed
       exposes: {
-        "./MarketingApp": "./src/bootstrap", // exposed file aliases and local paths
+        "./AuthApp": "./src/bootstrap", // exposed file aliases and local paths
       },
       shared: deps,
     }),
